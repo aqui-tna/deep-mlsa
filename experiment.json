@@ -1,0 +1,172 @@
+{
+  "name": "aqui-tna/deep-mlsa",
+  "url": "https://github.com/aqui-tna/deep-mlsa",
+  "python_version": "3",
+  "requirements": {
+    "req_file": "./code/requirements.txt",
+    "pip": [
+      "torch"
+    ],
+    "others": ["null"]
+  },
+  "to_run": {
+      "decision": false,
+      "reason": "No matching distribution found for tensorflow-gpu==0.12.1 (from -r requirements.txt (line 4))"
+  },
+  "entries": [
+      {
+        "cmd": "python runner.py -c mlsa_evaluate/config_supervised_en.json",
+        "main": "mlsa_evaluate/config_supervised_en.json",
+        "steps": [
+            "run the system"
+        ],
+        "args_lib": "unknown",
+        "args": [],
+        "ins": [
+            {
+            "type": "config_supervised_en.json",
+            "location": "unknown",
+            "artifact": "unknown",
+            "ex_from": "unknown",
+            "ex_in_repo": false
+            }
+        ],
+        "outs": [
+            {
+                "type": "unknown",
+                "location": "unknown",
+                "artifact": "unknown",
+                "ex_from": "unknown",
+                "ex_in_repo": false
+            }
+        ]
+        },
+        {
+          "cmd": "python runner.py -c mlsa_evaluate/config_supervised_en.json",
+          "main": "config_supervised_en.json",
+          "steps": [
+              "Running the Code"
+          ],
+          "args_lib": "unknown",
+          "args": [],
+          "ins": [
+              {
+              "type": "file",
+              "location": "mlsa_evaluate/config_supervised_en.json",
+              "artifact": "config_supervised_en.json",
+              "ex_from": "unknown",
+              "ex_in_repo": false
+              }
+          ],
+          "outs": [
+              {
+                  "type": "file",
+                  "location": "results/results_log.tsv",
+                  "artifact": "results_log.tsv",
+                  "ex_from": "unknown",
+                  "ex_in_repo": false
+              }
+          ]
+          },
+          {
+            "cmd": "python runner.py -c mlsa_train/config_supervised_en.json",
+            "main": "config_supervised_en.json",
+            "steps": [
+                "Training a New Model"
+            ],
+            "args_lib": "unknown",
+            "args": [],
+            "ins": [
+                {
+                "type": "file",
+                "location": "mlsa_evaluate/config_supervised_en.json",
+                "artifact": "config_supervised_en.json",
+                "ex_from": "unknown",
+                "ex_in_repo": false
+                }
+            ],
+            "outs": [
+                {
+                    "type": "file",
+                    "location": "results/results_log.tsv",
+                    "artifact": "results_log.tsv",
+                    "ex_from": "unknown",
+                    "ex_in_repo": false
+                }
+            ]
+            },
+            {
+              "cmd": "python runner.py -c mlsa_train/config_supervised_en.json",
+              "main": "config_supervised_en.json",
+              "steps": [
+                  "Prediction "
+              ],
+              "args_lib": "unknown",
+              "args": [
+                  "ngrams",
+                  "sequence",
+                  "word2vec_parameter",
+                    "size",
+                    "window",
+                    "min_count",
+                    "workers",
+                    "sg",
+                    "sample",
+                    "hs",
+                    "iter",
+                    "negative",
+                    "max_vocab_size"
+              ],
+              "ins": [
+                  {
+                  "type": "file",
+                  "location": "data/Tweets WordEmbeddings",
+                  "artifact": "wemb_fr200M.gz",
+                  "ex_from": "unknown",
+                  "ex_in_repo": false
+                  }
+              ],
+              "outs": [
+                  {
+                      "type": "folder",
+                      "location": "embeddings/",
+                      "artifact": "fr_embeddings_200M_10d",
+                      "ex_from": "unknown",
+                      "ex_in_repo": false
+                  }
+              ]
+              }
+    ],
+  "ex_metrics": {
+    "metrics_files": [
+        {
+            "file_name": "evaluation_metrics_tf.py",
+            "metrics": ["y_true,y_pred"]
+        },
+        {
+          "file_name": "evaluation_metrics_theano.py",
+          "metrics": ["y_true,y_pred"]
+      }
+    ],
+    "prints": ["y_true,y_pred"],
+    "plots": ["unknown"],
+    "others": [
+    ]
+  },
+  "ex_hyperparams": {
+    "from_cmd": ["unknown"],
+    "config_files": [
+        {
+            "name": "unknown",
+            "in_repo": "false",
+            "hyperparams": ["transfer_learning"]
+        }
+    ],
+    "others": [
+        {
+            "name": "unknown",
+            "metrics": "unknown"
+        }
+    ]
+  }
+}
