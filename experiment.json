@@ -1,5 +1,5 @@
 {
-  "name": "aqui-tna/deep-mlsa",
+  "name": "pinningbytes/deep-mlsa",
   "url": "https://github.com/aqui-tna/deep-mlsa",
   "python_version": "3",
   "requirements": {
@@ -14,48 +14,21 @@
       "reason": "No matching distribution found for tensorflow-gpu==0.12.1 (from -r requirements.txt (line 4))"
   },
   "entries": [
-      {
-        "cmd": "python runner.py -c mlsa_evaluate/config_supervised_en.json",
-        "main": "mlsa_evaluate/config_supervised_en.json",
-        "steps": [
-            "run the system"
-        ],
-        "args_lib": "unknown",
-        "args": [],
-        "ins": [
-            {
-            "type": "config_supervised_en.json",
-            "location": "unknown",
-            "artifact": "unknown",
-            "ex_from": "unknown",
-            "ex_in_repo": false
-            }
-        ],
-        "outs": [
-            {
-                "type": "unknown",
-                "location": "unknown",
-                "artifact": "unknown",
-                "ex_from": "unknown",
-                "ex_in_repo": false
-            }
-        ]
-        },
         {
-          "cmd": "python runner.py -c mlsa_evaluate/config_supervised_en.json",
-          "main": "config_supervised_en.json",
+          "cmd": "python runner.py -c data/mlsa_evaluate/config_supervised_en.json",
+          "main": "runner.py",
           "steps": [
-              "Running the Code"
+              "Evaluate"
           ],
-          "args_lib": "unknown",
+          "args_lib": "getopt",
           "args": [],
           "ins": [
               {
-              "type": "file",
-              "location": "mlsa_evaluate/config_supervised_en.json",
-              "artifact": "config_supervised_en.json",
-              "ex_from": "unknown",
-              "ex_in_repo": false
+                "type": "file",
+                "location": " data/mlsa_evaluate/config_supervised_en.json",
+                "artifact": "conf",
+                "ex_from": "conf",
+                "ex_in_repo": true
               }
           ],
           "outs": [
@@ -70,19 +43,19 @@
           },
           {
             "cmd": "python runner.py -c mlsa_train/config_supervised_en.json",
-            "main": "config_supervised_en.json",
+            "main": "runner.py",
             "steps": [
-                "Training a New Model"
+                "Training"
             ],
-            "args_lib": "unknown",
+            "args_lib": "getopt",
             "args": [],
             "ins": [
                 {
-                "type": "file",
-                "location": "mlsa_evaluate/config_supervised_en.json",
-                "artifact": "config_supervised_en.json",
-                "ex_from": "unknown",
-                "ex_in_repo": false
+                   "type": "file",
+                   "location": " data/mlsa_evaluate/config_supervised_en.json",
+                   "artifact": "conf",
+                   "ex_from": "conf",
+                   "ex_in_repo": true
                 }
             ],
             "outs": [
@@ -94,48 +67,7 @@
                     "ex_in_repo": false
                 }
             ]
-            },
-            {
-              "cmd": "python runner.py -c mlsa_train/config_supervised_en.json",
-              "main": "config_supervised_en.json",
-              "steps": [
-                  "Prediction "
-              ],
-              "args_lib": "unknown",
-              "args": [
-                  "ngrams",
-                  "sequence",
-                  "word2vec_parameter",
-                    "size",
-                    "window",
-                    "min_count",
-                    "workers",
-                    "sg",
-                    "sample",
-                    "hs",
-                    "iter",
-                    "negative",
-                    "max_vocab_size"
-              ],
-              "ins": [
-                  {
-                  "type": "file",
-                  "location": "data/Tweets WordEmbeddings",
-                  "artifact": "wemb_fr200M.gz",
-                  "ex_from": "unknown",
-                  "ex_in_repo": false
-                  }
-              ],
-              "outs": [
-                  {
-                      "type": "folder",
-                      "location": "embeddings/",
-                      "artifact": "fr_embeddings_200M_10d",
-                      "ex_from": "unknown",
-                      "ex_in_repo": false
-                  }
-              ]
-              }
+            }
     ],
   "ex_metrics": {
     "metrics_files": [
