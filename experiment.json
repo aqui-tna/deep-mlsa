@@ -1,19 +1,65 @@
 {
   "name": "pinningbytes/deep-mlsa",
   "url": "https://github.com/aqui-tna/deep-mlsa",
-  "python_version": "3",
+  "python_version": "3.5",
   "requirements": {
     "req_file": "./code/requirements.txt",
     "pip": [
       "torch"
     ],
-    "others": ["null"]
+    "others": []
   },
   "to_run": {
       "decision": false,
-      "reason": "No matching distribution found for tensorflow-gpu==0.12.1 (from -r requirements.txt (line 4))"
+      "reason": "Error in dependencies for the specified version of python"
   },
   "entries": [
+    {
+      "cmd": "python runner.py -c mlsa_train/config_supervised_en.json",
+      "main": "runner.py",
+      "steps": [
+          "Training"
+      ],
+      "args_lib": "getopt",
+      "args": [
+        {
+          "names": [
+              "--config", "-c"
+          ],
+          "input": true,
+          "dest": "config",
+          "ex_has_default": false,
+          "default": null,
+          "type": "str",
+          "mandatory": true
+      }
+      ],
+      "ins": [
+          {
+             "type": "file",
+             "location": "configurations/mlsa_evaluate/config_supervised_en.json",
+             "artifact": "conf",
+             "ex_from": "cmd",
+             "ex_in_repo": true
+          },
+          {
+            "type": "dir",
+            "location": "data/supervised_phase/en_full",
+            "artifact": "dataset",
+            "ex_from": "conf",
+            "ex_in_repo": true
+         }
+      ],
+      "outs": [
+        {
+          "type": "dir",
+          "location": "models",
+          "artifact": "model",
+          "ex_from": "conf",
+          "ex_in_repo": false
+       }
+      ]
+      },
         {
           "cmd": "python runner.py -c data/mlsa_evaluate/config_supervised_en.json",
           "main": "runner.py",
@@ -25,80 +71,46 @@
           "ins": [
               {
                 "type": "file",
-                "location": " data/mlsa_evaluate/config_supervised_en.json",
+                "location": "data/mlsa_evaluate/config_supervised_en.json",
                 "artifact": "conf",
+                "ex_from": "conf",
+                "ex_in_repo": true
+              },
+              {
+                "type": "dir",
+                "location": "data/supervised_phase/en_full",
+                "artifact": "dataset",
                 "ex_from": "conf",
                 "ex_in_repo": true
               }
           ],
           "outs": [
-              {
-                  "type": "file",
-                  "location": "results/results_log.tsv",
-                  "artifact": "results_log.tsv",
-                  "ex_from": "unknown",
-                  "ex_in_repo": false
-              }
+            {
+              "type": "file",
+              "location": "results/results_log.tsv",
+              "artifact": "log",
+              "ex_from": "manual",
+              "ex_in_repo": false
+          }
           ]
-          },
-          {
-            "cmd": "python runner.py -c mlsa_train/config_supervised_en.json",
-            "main": "runner.py",
-            "steps": [
-                "Training"
-            ],
-            "args_lib": "getopt",
-            "args": [],
-            "ins": [
-                {
-                   "type": "file",
-                   "location": " data/mlsa_evaluate/config_supervised_en.json",
-                   "artifact": "conf",
-                   "ex_from": "conf",
-                   "ex_in_repo": true
-                }
-            ],
-            "outs": [
-                {
-                    "type": "file",
-                    "location": "results/results_log.tsv",
-                    "artifact": "results_log.tsv",
-                    "ex_from": "unknown",
-                    "ex_in_repo": false
-                }
-            ]
-            }
+          }
     ],
   "ex_metrics": {
-    "metrics_files": [
-        {
-            "file_name": "evaluation_metrics_tf.py",
-            "metrics": ["y_true,y_pred"]
-        },
-        {
-          "file_name": "evaluation_metrics_theano.py",
-          "metrics": ["y_true,y_pred"]
-      }
-    ],
-    "prints": ["y_true,y_pred"],
-    "plots": ["unknown"],
+    "metrics_files": [],
+    "prints": ["pearsons_correlation"],
+    "plots": [],
     "others": [
     ]
   },
   "ex_hyperparams": {
-    "from_cmd": ["unknown"],
+    "from_cmd": [],
     "config_files": [
         {
-            "name": "unknown",
-            "in_repo": "false",
-            "hyperparams": ["transfer_learning"]
+            "name": "configurations/*",
+            "in_repo": true,
+            "hyperparams": ["batch-size", "nb-epocjs"]
         }
     ],
-    "others": [
-        {
-            "name": "unknown",
-            "metrics": "unknown"
-        }
-    ]
+    "others": []
   }
 }
