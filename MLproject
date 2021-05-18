@@ -1,0 +1,9 @@
+name: pinningbytes/deep-mlsa
+conda_env: conda_deep-mlsa.yaml
+entry_points:
+  step0_Training:
+    command: python runner.py -c mlsa_train/config_supervised_en.json
+  step1_Evaluate:
+    command: python runner.py -c data/mlsa_evaluate/config_supervised_en.json
+  main:
+    command: python ex_mlflow_multistep_main.py
